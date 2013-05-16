@@ -177,10 +177,44 @@ var colorLab = (function(space, values){
             var C1new = Math.sqrt(Math.pow(a1new, 2) + Math.pow(b1new, 2));
             var C2new = Math.sqrt(Math.pow(a2new, 2) + Math.pow(b2new, 2));
 
+            var h1new;
+            if(a1new === 0 && b1new === 0) {
+                h1new = 0;
+            }else{
+                if(b1new >= 0) {
+                    h1new = (Math.atan2(a1new, b1new)) / (Math.PI / 180);
+                }else{
+                    h1new = Math.atan2(b1new, a1new) * (180 / Math.PI) + 360;
+                }
+            } // Why does it only work when b1new and a1new are swapped?
+
+            var h2new;
+            if(a2new === 0 && b2new === 0) {
+                h2new = 0;
+            }
+            if(b2new >= 0) {
+                h2new = (Math.atan2(b2new, a2new)) / (Math.PI / 180);
+            }else{
+                h2new = (Math.atan2(b2new, a2new)) / (Math.PI / 180) + 360;
+            } // Why does it only work when b2new and a2new are swapped?
+
+
+            // Step 3: calculate dLnew dCnew dHnew dhnew
+
+            var dhCond;
+            if ((h2new-h1new) > 180){
+                dhCond =  1;
+            }else{
+                if((h2new-h1new) < -180){
+                    dhCond = 2;
+                }else{
+                    dhCond = 0;
+                }
+            }
 
 
 
-            console.log("C1:" + " " + C1);
+            console.log("C1:", C1);
             console.log("C2:" + " " + C2);
             console.log("Cdurchschnitt:" + " " + Cdurchschnitt);
             console.log("G:" + " " + G);
@@ -192,6 +226,9 @@ var colorLab = (function(space, values){
             console.log("b2new:" + " " + b2new);
             console.log("C1new:" + " " + C1new);
             console.log("C2new:" + " " + C2new);
+            console.log("h1new:" + " " + h1new);
+            console.log("h2new:" + " " + h2new);
+            console.log("dhCond:" + " " + dhCond);
 
 
             return 222;
